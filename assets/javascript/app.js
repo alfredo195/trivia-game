@@ -90,5 +90,22 @@ $(document).ready(function() {
   }
 
   //display question 
+  function displayQuestion() {
+	//generate random index in array
+	index = Math.floor(Math.random()*options.length);
+	pick = options[index];
+
+
+		$("#questionblock").html("<h2>" + pick.question + "</h2>");
+		for(var i = 0; i < pick.choice.length; i++) {
+			var userChoice = $("<div>");
+			userChoice.addClass("answerchoice");
+			userChoice.html(pick.choice[i]);
+			userChoice.attr("data-guessvalue", i);
+			$("#answerblock").append(userChoice);
+		}
+}
+
+
 });
 
