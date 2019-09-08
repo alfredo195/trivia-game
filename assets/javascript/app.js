@@ -55,7 +55,40 @@ $(document).ready(function() {
 
   //start the game
   $("#start").on("click", function(){
-      $
+      $("#start").hide();
+      displayQuestions();
+        runTimer();
+        for( var i = 0; i < options.length; i++){
+            holder.push(options[i]);
+        }
   })
+
+  // timer start
+  function runTimer(){
+      if (!running) {
+          intervalId = setInterval(decrement, 1000);
+          running = true;
+      }
+  }
+
+  // timer count down
+  function decrement(){
+      $("#timer").text("<h3>Time remaining: " + timer + "</h3>");
+      timer --;
+      if (timer === 0){
+          unanswer++;
+          stop();
+          $("#answers").text("<p> Time's up! the correct answer is: " + pick.choice[pick.answer] + "</p>");
+          hidepicture();
+      }
+  }
+
+  // timer stop
+  function stop(){
+      running = false;
+      clearInterval(intervalId);
+  }
+
+  //display question 
 });
 
