@@ -51,7 +51,7 @@ $(document).ready(function() {
   var holder = [];
 
   //reset
-  $("#reset").hide();
+  $("#restart").hide();
 
   //start the game
   $("#start").on("click", function(){
@@ -73,13 +73,13 @@ $(document).ready(function() {
 
   // timer count down
   function decrement(){
-      $("#timer").text("<h3>Time remaining: " + timer + "</h3>");
+      $(".timer").text("Time remaining: " + timer );
       timer --;
       if (timer === 0){
           unanswer++;
           stop();
-          $("#answers").text("<p> Time's up! the correct answer is: " + pick.choice[pick.answer] + "</p>");
-          hidepicture();
+          $(".answers").text(" Time's up! the correct answer is: " + pick.choice[pick.answer] );
+          
       }
   }
 
@@ -90,22 +90,64 @@ $(document).ready(function() {
   }
 
   //display question 
-  function displayQuestion() {
+  function displayQuestions() {
 	//generate random index in array
 	index = Math.floor(Math.random()*options.length);
 	pick = options[index];
 
 
-		$("#questionblock").html("<h2>" + pick.question + "</h2>");
+		$(".questions").text("" + pick.question  );
 		for(var i = 0; i < pick.choice.length; i++) {
 			var userChoice = $("<div>");
 			userChoice.addClass("answerchoice");
-			userChoice.html(pick.choice[i]);
+			userChoice.text(pick.choice[i]);
 			userChoice.attr("data-guessvalue", i);
-			$("#answerblock").append(userChoice);
+			$(".answers").append(userChoice);
 		}
+//}
+
+
+    // function for right answers
+    $(".answerchoice").on("click", function(){
+        userGuess = parseInt($(this).attr("data-guessvalue"));
+        if (userGuess === pick.answer) {
+            stop();
+            correct++;
+            userGuess="";
+            $(".answers").text("Correct!");
+           
+        } else{
+            stop()
+            wrong++;
+            userGuess="";
+            $(".answers").text("Wrong! The correct answer is: " + pick.choice[pick.answer] );
+           
+        }
+    })
 }
 
 
+    
+
+
+
+$("#restart").on("click", function() {
+	$("#restart").hide();
+	$(".answers").empty();
+	$(".questions").empty();
+	for(var i = 0; i < holder.length; i++) {
+		options.push(holder[i]);
+	}
+	runTimer();
+	
+
+})
+
+
+
+   
+   
 });
+
+
 
